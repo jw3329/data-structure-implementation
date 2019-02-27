@@ -1,23 +1,9 @@
-#include <iostream>
-#include <ctime>
-using namespace std;
+#include "stack.h"
 
 const int max_size = 1000;
 
-
-class Stack {
-	private:
-		int stack[max_size];
-		int index;
-	public:
-		Stack();
-		bool isEmpty();
-		bool push(int num);
-		int pop();
-};
-
 Stack::Stack() {
-	stack[max_size] = {};
+	stack = new int[max_size];
 	index = -1;
 }
 
@@ -38,18 +24,4 @@ int Stack::pop() {
 	int ret = stack[index];
 	stack[index--] = 0;
 	return ret;
-}
-	
-int main() {
-	Stack s;
-	srand(time(NULL));
-	for(int i=0;i<1001;i++) {
-		if(!s.push(rand() % 1000)) {
-			cout << "Stack Overflow" << endl;
-		}
-	}
-	while(!s.isEmpty()) {
-		cout << s.pop() << endl;
-	}
-	return 0;
 }
