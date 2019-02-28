@@ -1,10 +1,10 @@
 #include <ctime>
 #include <iostream>
-#include "binary_tree.h"
+#include "binary_search_tree.h"
 using namespace std;
 
 int main() {
-    BinaryTree *binaryTree = new BinaryTree();
+    BinarySearchTree *binarySearchTree = new BinarySearchTree();
     srand(time(nullptr));
     int count = 100;
     int firstNumber;
@@ -13,25 +13,25 @@ int main() {
         int num = rand() % 5000;
         if (i == 0) firstNumber = num;
         cout << num << " ";
-        binaryTree->insertNode(num);
+        binarySearchTree->insertNode(num);
     }
     cout << endl;
     cout << "Height of tree : " << endl;
-    cout << binaryTree->height() << endl;
+    cout << binarySearchTree->height() << endl;
     cout << "Inorder Traversal : " << endl;
-    binaryTree->inOrderTraversal();
+    binarySearchTree->inOrderTraversal();
     cout << "Removing node with value : " << firstNumber << endl;
-    binaryTree->deleteNode(firstNumber);
+    binarySearchTree->deleteNode(firstNumber);
     cout << "Inorder Traversal : " << endl;
-    binaryTree->inOrderTraversal();
+    binarySearchTree->inOrderTraversal();
     cout << "Preorder Traversal : " << endl;
-    binaryTree->preOrderTraversal();
+    binarySearchTree->preOrderTraversal();
     cout << "Postorder Traversal : " << endl;
-    binaryTree->postOrderTraversal();
+    binarySearchTree->postOrderTraversal();
     cout << "Levelorder Traversal : " << endl;
-    binaryTree->levelOrderTraversal();
+    binarySearchTree->levelOrderTraversal();
     cout << "Reverseorder Traversal : " << endl;
-    binaryTree->reversedOrderTraversal();
-    delete binaryTree;
+    binarySearchTree->reversedOrderTraversal();
+    delete binarySearchTree;
     return 0;
 }

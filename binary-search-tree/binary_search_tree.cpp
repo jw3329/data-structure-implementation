@@ -1,10 +1,10 @@
-#include "binary_tree.h"
+#include "binary_search_tree.h"
 #include <iostream>
 #include "../queue/queue.h"
 #include "../stack/stack.h"
 using namespace std;
 
-BinaryTree::BinaryTree() { root = nullptr; }
+BinarySearchTree::BinarySearchTree() { root = nullptr; }
 
 int max(int a, int b) { return a > b ? a : b; }
 
@@ -13,9 +13,9 @@ int heightHelper(TreeNode *subroot) {
     return 1 + max(heightHelper(subroot->left), heightHelper(subroot->right));
 }
 
-int BinaryTree::height() { return heightHelper(root); }
+int BinarySearchTree::height() { return heightHelper(root); }
 
-TreeNode *BinaryTree::searchNode(int val) {
+TreeNode *BinarySearchTree::searchNode(int val) {
     if (!root) return nullptr;
     TreeNode *cur = root;
     while (cur) {
@@ -30,7 +30,7 @@ TreeNode *BinaryTree::searchNode(int val) {
     return nullptr;
 }
 
-void BinaryTree::insertNode(int val) {
+void BinarySearchTree::insertNode(int val) {
     TreeNode *newNode = new TreeNode(val);
     if (!root) {
         root = newNode;
@@ -103,7 +103,7 @@ void deleteNodeHelper(TreeNode *&subroot, int val) {
     }
 }
 
-void BinaryTree::deleteNode(int val) { deleteNodeHelper(root, val); }
+void BinarySearchTree::deleteNode(int val) { deleteNodeHelper(root, val); }
 
 void inOrderTraversalHelper(TreeNode *subroot) {
     if (!subroot) return;
@@ -112,7 +112,7 @@ void inOrderTraversalHelper(TreeNode *subroot) {
     inOrderTraversalHelper(subroot->right);
 }
 
-void BinaryTree::inOrderTraversal() {
+void BinarySearchTree::inOrderTraversal() {
     inOrderTraversalHelper(root);
     cout << endl;
 }
@@ -124,7 +124,7 @@ void preOrderTraversalHelper(TreeNode *subroot) {
     preOrderTraversalHelper(subroot->right);
 }
 
-void BinaryTree::preOrderTraversal() {
+void BinarySearchTree::preOrderTraversal() {
     preOrderTraversalHelper(root);
     cout << endl;
 }
@@ -136,12 +136,12 @@ void postOrderTraversalHelper(TreeNode *subroot) {
     cout << " " << subroot->val << " ";
 }
 
-void BinaryTree::postOrderTraversal() {
+void BinarySearchTree::postOrderTraversal() {
     postOrderTraversalHelper(root);
     cout << endl;
 }
 
-void BinaryTree::levelOrderTraversal() {
+void BinarySearchTree::levelOrderTraversal() {
     if (!root) return;
     Queue<TreeNode *> queue(10000);
     TreeNode *cur = root;
@@ -162,7 +162,7 @@ void deleteTreeNodes(TreeNode *subroot) {
     delete subroot;
 }
 
-void BinaryTree::reversedOrderTraversal() {
+void BinarySearchTree::reversedOrderTraversal() {
     if (!root) return;
     Queue<TreeNode *> queue(10000);
     Stack<TreeNode *> stack(10000);
@@ -180,4 +180,4 @@ void BinaryTree::reversedOrderTraversal() {
     cout << endl;
 }
 
-BinaryTree::~BinaryTree() { deleteTreeNodes(root); }
+BinarySearchTree::~BinarySearchTree() { deleteTreeNodes(root); }

@@ -3,9 +3,9 @@
 
 #include "tree_node.h"
 
-class BinaryTree {
+class BinarySearchTree {
    public:
-    BinaryTree();
+    BinarySearchTree();
     int height();
     TreeNode *searchNode(int val);
     void insertNode(int val);
@@ -15,7 +15,7 @@ class BinaryTree {
     void postOrderTraversal();
     void levelOrderTraversal();
     void reversedOrderTraversal();
-    ~BinaryTree();
+    ~BinarySearchTree();
 
    private:
     TreeNode *root;
