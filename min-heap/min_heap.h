@@ -7,6 +7,8 @@ class MinHeap {
     int capacity;
     int size;
 
+    void minHeapify(int index);
+
    public:
     MinHeap(int capacity);
     int parent(int i);
