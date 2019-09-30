@@ -43,24 +43,25 @@ class AVLTree:
             else:
                 root.left = insert_helper(root.left, key)
 
-            self.set_height(
-                root, 1 + max(self.get_height(root.left), self.get_height(root.right)))
+            # self.set_height(
+            #     root, 1 + max(self.get_height(root.left), self.get_height(root.right)))
 
-            balance = self.get_balance(root)
+            # balance = self.get_balance(root)
 
-            # if balance > 0 then it means that left height is longer than right by how long
-            # left right and left left
-            if balance > 1:
-                if key > root.left.key:
-                    root.left = self.left_rotate(root.left)
-                return self.right_rotate(root)
+            # # if balance > 0 then it means that left height is longer than right by how long
+            # # left right and left left
+            # if balance > 1:
+            #     if key > root.left.key:
+            #         root.left = self.left_rotate(root.left)
+            #     return self.right_rotate(root)
 
-            elif balance < -1:
-                if key < root.right.key:
-                    root.right = self.right_rotate(root.right)
-                return self.left_rotate(root)
+            # elif balance < -1:
+            #     if key < root.right.key:
+            #         root.right = self.right_rotate(root.right)
+            #     return self.left_rotate(root)
 
-            return root
+            # return root
+            return self.rebalance(root)
         self.root = insert_helper(self.root, key)
 
     def left_rotate(self, root):
@@ -129,26 +130,29 @@ class AVLTree:
                     min_node.count = 1
                     root.right = delete_helper(root.right, min_node.key)
 
-            self.set_height(
-                root, 1 + max(self.get_height(root.left), self.get_height(root.right)))
-
-            balance = self.get_balance(root)
-
-            # if balance > 0 then it means that left height is longer than right by how long
-            # left right and left left
-            if balance > 1:
-                if self.get_balance(root.left) < 0:
-                    root.left = self.left_rotate(root.left)
-                return self.right_rotate(root)
-
-            elif balance < -1:
-                if self.get_balance(root.right) > 0:
-                    root.right = self.right_rotate(root.right)
-                return self.left_rotate(root)
-
-            return root
+            return self.rebalance(root)
 
         self.root = delete_helper(self.root, key)
+
+    def rebalance(self,root):
+        self.set_height(
+            root, 1 + max(self.get_height(root.left), self.get_height(root.right)))
+
+        balance = self.get_balance(root)
+
+        # if balance > 0 then it means that left height is longer than right by how long
+        # left right and left left
+        if balance > 1:
+            if self.get_balance(root.left) < 0:
+                root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
+
+        elif balance < -1:
+            if self.get_balance(root.right) > 0:
+                root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
+
+        return root
 
     def get_minimum_node(self, root):
         if not root or not root.left:
@@ -171,6 +175,10 @@ print(nums)
 
 print(nums[:len(nums) // 2])
 
+print('before delete')
+avl.print()
+
+print('\nafter delete')
 for num in nums[:len(nums) // 2]:
     avl.delete(num)
 
