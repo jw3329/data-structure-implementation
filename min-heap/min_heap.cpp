@@ -49,6 +49,7 @@ void MinHeap::decreaseKey(int i, int newVal) {
         swap(&arr[i], &arr[parent(i)]);
         i = parent(i);
     }
+    // minHeapify(i);
 }
 
 void MinHeap::deleteKey(int i) {
@@ -69,4 +70,5 @@ void MinHeap::insertKey(int k) {
         swap(&arr[index], &arr[parent(index)]);
         index = parent(index);
     }
+    // minHeapify(index);
 }
