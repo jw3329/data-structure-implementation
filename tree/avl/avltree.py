@@ -2,7 +2,6 @@ import random
 
 
 class TreeNode:
-
     def __init__(self, key):
         self.key = key
         self.left = None
@@ -12,7 +11,6 @@ class TreeNode:
 
 
 class AVLTree:
-
     def __init__(self):
         self.root = None
 
@@ -31,7 +29,6 @@ class AVLTree:
         return self.get_height(root.left) - self.get_height(root.right)
 
     def insert(self, key):
-
         def insert_helper(root, key):
             if not root:
                 return TreeNode(key)
@@ -62,6 +59,7 @@ class AVLTree:
 
             # return root
             return self.rebalance(root)
+
         self.root = insert_helper(self.root, key)
 
     def left_rotate(self, root):
@@ -72,9 +70,11 @@ class AVLTree:
             root.right = right_left
 
             self.set_height(
-                right, 1 + max(self.get_height(right.right), self.get_height(right.left)))
+                right, 1 +
+                max(self.get_height(right.right), self.get_height(right.left)))
         self.set_height(
-            root, 1 + max(self.get_height(root.right), self.get_height(root.left)))
+            root,
+            1 + max(self.get_height(root.right), self.get_height(root.left)))
 
         return right
 
@@ -86,25 +86,99 @@ class AVLTree:
             root.left = left_right
 
             self.set_height(
-                left, 1 + max(self.get_height(left.left), self.get_height(left.right)))
+                left, 1 +
+                max(self.get_height(left.left), self.get_height(left.right)))
         self.set_height(
-            root, 1 + max(self.get_height(root.right), self.get_height(root.left)))
+            root,
+            1 + max(self.get_height(root.right), self.get_height(root.left)))
 
         return left
 
+    # def print(self):
+    # def print_helper(root):
+    #     if not root:
+    #         return
+    #     print_helper(root.left)
+    #     print(f'{root.key}({root.count})', end=' ')
+    #     print_helper(root.right)
+
+    # print_helper(self.root)
+    # def get_level_order_list():
+    #     queue = [self.root]
+    #     res = [self.root]
+    #     while queue:
+    #         curr = queue.pop(0)
+    #         res.append(None if not curr else curr.key)
+    #         if not curr:
+    #             continue
+    #         queue.append(curr.left)
+    #         queue.append(curr.right)
+    #     return res
+
+    # def print_helper(level_list, spaces):
+
+    # level_list = get_level_order_list()
+    # print_helper(level_list,50)
+    # # print root with first spaced 50
+
+    # print_helper(root,50)
+
     def print(self):
+        lines, _, _, _ = self._display_aux(self.root)
+        for line in lines:
+            print(line)
 
-        def print_helper(root):
-            if not root:
-                return
-            print_helper(root.left)
-            print(f'{root.key}({root.count})', end=' ')
-            print_helper(root.right)
+    def _display_aux(self, root):
+        """Returns list of strings, width, height, and horizontal coordinate of the root."""
+        # No child.
+        if root.right is None and root.left is None:
+            line = '%s(%s)' % (root.key, root.count)
+            width = len(line)
+            height = 1
+            middle = width // 2
+            return [line], width, height, middle
 
-        print_helper(self.root)
+        # Only left child.
+        if root.right is None:
+            lines, n, p, x = self._display_aux(root.left)
+            s = '%s' % root.key
+            u = len(s)
+            first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
+            second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
+            shifted_lines = [line + u * ' ' for line in lines]
+            return [first_line, second_line
+                    ] + shifted_lines, n + u, p + 2, n + u // 2
+
+        # Only right child.
+        if root.left is None:
+            lines, n, p, x = self._display_aux(root.right)
+            s = '%s(%s)' % (root.key, root.count)
+            u = len(s)
+            first_line = s + x * '_' + (n - x) * ' '
+            second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
+            shifted_lines = [u * ' ' + line for line in lines]
+            return [first_line, second_line
+                    ] + shifted_lines, n + u, p + 2, u // 2
+
+        # Two children.
+        left, n, p, x = self._display_aux(root.left)
+        right, m, q, y = self._display_aux(root.right)
+        s = '%s(%s)' % (root.key, root.count)
+        u = len(s)
+        first_line = (x + 1) * ' ' + (n - x -
+                                      1) * '_' + s + y * '_' + (m - y) * ' '
+        second_line = x * ' ' + '/' + (n - x - 1 + u +
+                                       y) * ' ' + '\\' + (m - y - 1) * ' '
+        if p < q:
+            left += [n * ' '] * (q - p)
+        elif q < p:
+            right += [m * ' '] * (p - q)
+        zipped_lines = zip(left, right)
+        lines = [first_line, second_line
+                 ] + [a + u * ' ' + b for a, b in zipped_lines]
+        return lines, n + m + u, max(p, q) + 2, n + u // 2
 
     def delete(self, key):
-
         def delete_helper(root, key):
             if not root:
                 return None
@@ -134,9 +208,10 @@ class AVLTree:
 
         self.root = delete_helper(self.root, key)
 
-    def rebalance(self,root):
+    def rebalance(self, root):
         self.set_height(
-            root, 1 + max(self.get_height(root.left), self.get_height(root.right)))
+            root,
+            1 + max(self.get_height(root.left), self.get_height(root.right)))
 
         balance = self.get_balance(root)
 
@@ -162,9 +237,7 @@ class AVLTree:
 
 avl = AVLTree()
 
-nums = [random.randint(0, 10) for _ in range(10)]
-
-# nums = [9, 5, 10, 0, 6, 11, -1, 1, 2,1,1,1,1,1]
+nums = [random.randint(0, 50) for _ in range(30)]
 
 for num in nums:
     avl.insert(num)
@@ -173,13 +246,16 @@ for num in nums:
 
 print(nums)
 
-print(nums[:len(nums) // 2])
+delete_list = random.sample(nums, len(nums) // 2)
+
+print(delete_list)
 
 print('before delete')
 avl.print()
 
 print('\nafter delete')
-for num in nums[:len(nums) // 2]:
+for num in delete_list:
     avl.delete(num)
 
 avl.print()
+print('')
