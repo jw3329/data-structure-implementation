@@ -141,7 +141,7 @@ class AVLTree:
         # Only left child.
         if root.right is None:
             lines, n, p, x = self._display_aux(root.left)
-            s = '%s' % root.key
+            s = '%s(%s)' % (root.key, root.count)
             u = len(s)
             first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
             second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
