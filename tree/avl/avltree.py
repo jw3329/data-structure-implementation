@@ -237,7 +237,7 @@ class AVLTree:
 
 avl = AVLTree()
 
-nums = [random.randint(0, 50) for _ in range(30)]
+nums = [random.randint(0, 100) for _ in range(50)]
 
 for num in nums:
     avl.insert(num)
