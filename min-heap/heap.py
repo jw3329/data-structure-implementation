@@ -57,23 +57,44 @@ class Heap:
     def is_empty(self):
         return not self.heap
 
-    def heapify(self, i):
+    def min_heapify(self, i):
         if i >= len(self.heap):
             return
         # if parent is smaller, then stop
         left = self.left(i)
         right = self.right(i)
-        n = len(self.heap)
-        if (left >= n or self.heap[i] < self.heap[left]) and (
-            right >= n or self.heap[i] < self.heap[right]
+        if (left >= len(self.heap) or self.heap[i] < self.heap[left]) and (
+            right >= len(self.heap) or self.heap[i] < self.heap[right]
         ):
             return
         # swapping smaller child, then we don't have to worry about if other is smaller, because it will be smaller always
         smaller = left
-        if self.heap[right] < self.heap[smaller]:
+        if right < len(self.heap) and self.heap[right] < self.heap[smaller]:
             smaller = right
         self.swap(i, smaller)
-        self.heapify(smaller)
+        self.min_heapify(smaller)
+
+    def heapify(self):
+        # with current heap, make to heap structure
+
+        def helper(index):
+            if index >= len(self.heap):
+                return
+            left = self.left(index)
+            right = self.right(index)
+            # do all heapify for left and right
+            helper(left)
+            helper(right)
+            # minimum to root
+            smallest = index
+            if left < len(self.heap) and self.heap[left] < self.heap[smallest]:
+                smallest = left
+            if right < len(self.heap) and self.heap[right] < self.heap[smallest]:
+                smallest = right
+            self.swap(index, smallest)
+            self.min_heapify(smallest)
+
+        helper(0)
 
 
 if __name__ == "__main__":
@@ -90,3 +111,10 @@ if __name__ == "__main__":
 
     while heap.heap:
         print(heap.pop())
+
+    import random
+
+    heap2 = Heap()
+    heap2.heap = [random.randint(0, 1000000) for _ in range(1000000)]
+    heap2.heapify()
+    print(heap2.heap)
